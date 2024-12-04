@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernate-expressnode
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kubernate-expressnode
+  template:
+    metadata:
+      labels:
+        app: kubernate-expressnode
+    spec:
+      containers:
+      - name: kubernate-expressnode
+        image: akindele1183/expressnode
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "225m"
+        ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernate-expressnode
+spec:
+  type: LoadBalancer
+  selector:
+    app: kubernate-expressnode
+  ports:
+  - port: 5000
+    targetPort: 5000
